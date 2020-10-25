@@ -1,0 +1,5 @@
+LIBRARY NativeApiProxy
+EXPORTS
+	GetClassObject
+	DestroyObject
+	GetClassNames

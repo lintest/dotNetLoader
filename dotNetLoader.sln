@@ -3,18 +3,47 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30523.141
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dotNetLoader", "dotNetLoader.csproj", "{27DA7E38-6B72-47A8-8681-086D2A9A830A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dotNetLoader", "dotNetLoader.csproj", "{27DA7E38-6B72-47A8-8681-086D2A9A830A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{2D3C486D-B370-451C-8B0C-EFF2D6C9FB61} = {2D3C486D-B370-451C-8B0C-EFF2D6C9FB61}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NativeApiProxy", "NativeApiProxy\NativeApiProxy.vcxproj", "{2D3C486D-B370-451C-8B0C-EFF2D6C9FB61}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
 		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{27DA7E38-6B72-47A8-8681-086D2A9A830A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{27DA7E38-6B72-47A8-8681-086D2A9A830A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27DA7E38-6B72-47A8-8681-086D2A9A830A}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{27DA7E38-6B72-47A8-8681-086D2A9A830A}.Debug|x64.Build.0 = Debug|Any CPU
+		{27DA7E38-6B72-47A8-8681-086D2A9A830A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{27DA7E38-6B72-47A8-8681-086D2A9A830A}.Debug|x86.Build.0 = Debug|Any CPU
 		{27DA7E38-6B72-47A8-8681-086D2A9A830A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{27DA7E38-6B72-47A8-8681-086D2A9A830A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{27DA7E38-6B72-47A8-8681-086D2A9A830A}.Release|x64.ActiveCfg = Release|Any CPU
+		{27DA7E38-6B72-47A8-8681-086D2A9A830A}.Release|x64.Build.0 = Release|Any CPU
+		{27DA7E38-6B72-47A8-8681-086D2A9A830A}.Release|x86.ActiveCfg = Release|Any CPU
+		{27DA7E38-6B72-47A8-8681-086D2A9A830A}.Release|x86.Build.0 = Release|Any CPU
+		{2D3C486D-B370-451C-8B0C-EFF2D6C9FB61}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{2D3C486D-B370-451C-8B0C-EFF2D6C9FB61}.Debug|Any CPU.Build.0 = Debug|Win32
+		{2D3C486D-B370-451C-8B0C-EFF2D6C9FB61}.Debug|x64.ActiveCfg = Debug|x64
+		{2D3C486D-B370-451C-8B0C-EFF2D6C9FB61}.Debug|x64.Build.0 = Debug|x64
+		{2D3C486D-B370-451C-8B0C-EFF2D6C9FB61}.Debug|x86.ActiveCfg = Debug|Win32
+		{2D3C486D-B370-451C-8B0C-EFF2D6C9FB61}.Debug|x86.Build.0 = Debug|Win32
+		{2D3C486D-B370-451C-8B0C-EFF2D6C9FB61}.Release|Any CPU.ActiveCfg = Release|Win32
+		{2D3C486D-B370-451C-8B0C-EFF2D6C9FB61}.Release|Any CPU.Build.0 = Release|Win32
+		{2D3C486D-B370-451C-8B0C-EFF2D6C9FB61}.Release|x64.ActiveCfg = Release|x64
+		{2D3C486D-B370-451C-8B0C-EFF2D6C9FB61}.Release|x64.Build.0 = Release|x64
+		{2D3C486D-B370-451C-8B0C-EFF2D6C9FB61}.Release|x86.ActiveCfg = Release|Win32
+		{2D3C486D-B370-451C-8B0C-EFF2D6C9FB61}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

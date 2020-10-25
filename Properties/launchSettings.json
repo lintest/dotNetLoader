@@ -2,7 +2,8 @@
   "profiles": {
     "dotAddIn": {
       "commandName": "Project",
-      "commandLineArgs": "C:\\\\Cpp\\\\dotAddIn\\\\VanessaExtWin64.dll"
+      "commandLineArgs": "C:\\\\Cpp\\\\dotAddIn\\\\VanessaExtWin64.dll",
+      "workingDirectory": "C:\\Cpp\\dotAddIn\\bin\\Debug\\netcoreapp3.1"
     }
   }
 }

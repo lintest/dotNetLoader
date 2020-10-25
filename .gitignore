@@ -3,6 +3,10 @@
 /.vc
 /.vs
 /.idea
+Release
+Debug
+x64
+*.user
 *.dll
 *.o
 *.d
