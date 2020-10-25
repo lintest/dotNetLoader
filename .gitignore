@@ -1,0 +1,9 @@
+﻿/bin
+/obj
+/.vc
+/.vs
+/.idea
+*.dll
+*.o
+*.d
+*.so

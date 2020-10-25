@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "dotAddIn": {
+      "commandName": "Project",
+      "commandLineArgs": "C:\\\\Cpp\\\\dotAddIn\\\\VanessaExtWin64.dll"
+    }
+  }
+}
