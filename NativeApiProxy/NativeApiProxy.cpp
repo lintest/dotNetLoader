@@ -16,19 +16,39 @@ BOOL APIENTRY DllMain(HMODULE hModule,
 	return TRUE;
 }
 
-#include "../include/types.h"
+#define DllExport extern "C" __declspec(dllexport)
 
-class IComponentBase
-{
+#include "include/types.h"
+#include "include/ComponentBase.h"
+#include "include/AddInDefBase.h"
+#include "include/IMemoryManager.h"
+
+class ProxyComponent : public IMemoryManager {
+private:
+	IComponentBase* pInterface = nullptr;
 public:
-	virtual ~IComponentBase() {}
+	ProxyComponent(IComponentBase* pInterface) : pInterface(pInterface) {
+		//		pInterface->Init(this);
+		pInterface->setMemManager(this);
+	}
+	virtual ~ProxyComponent() override {
+		pInterface->Done();
+		delete pInterface;
+	}
+	virtual bool ADDIN_API AllocMemory(void** pMemory, unsigned long ulCountByte) override {
+		return *pMemory = malloc(ulCountByte);
+	}
+	virtual void ADDIN_API FreeMemory(void** pMemory) override {
+		free(*pMemory);
+	}
+	IComponentBase& Interface() {
+		return *pInterface;
+	}
 };
 
-typedef const WCHAR_T* (*GetClassNamesPtr)();
-typedef long(*GetClassObjectPtr)(const wchar_t* wsName, IComponentBase** pInterface);
-typedef long(*DestroyObjectPtr)(IComponentBase** pIntf);
+typedef void(_stdcall* LPEXTFUNCRESPOND) (const WCHAR_T* s);
 
-extern "C" __declspec(dllexport) const WCHAR_T * GetClassNames(const WCHAR_T * wsLibrary)
+DllExport const WCHAR_T* GetClassNames(const WCHAR_T* wsLibrary)
 {
 	auto hModule = LoadLibrary(wsLibrary);
 	if (hModule == nullptr) return nullptr;
@@ -36,7 +56,7 @@ extern "C" __declspec(dllexport) const WCHAR_T * GetClassNames(const WCHAR_T * w
 	return proc();
 }
 
-extern "C" __declspec(dllexport) IComponentBase * GetClassObject(const WCHAR_T * wsLibrary, const WCHAR_T * wsName)
+DllExport ProxyComponent* GetClassObject(const WCHAR_T* wsLibrary, const WCHAR_T* wsName)
 {
 	auto hModule = LoadLibrary(wsLibrary);
 	if (hModule == nullptr) return nullptr;
@@ -44,11 +64,77 @@ extern "C" __declspec(dllexport) IComponentBase * GetClassObject(const WCHAR_T *
 	if (proc == nullptr) return nullptr;
 	IComponentBase* pComponent = nullptr;
 	auto ok = proc(wsName, &pComponent);
-	return pComponent;
+	if (ok == 0) return nullptr;
+	return new ProxyComponent(pComponent);
 }
 
-extern "C" __declspec(dllexport) long DestroyObject(IComponentBase * pInterface)
+DllExport long DestroyObject(ProxyComponent* proxy)
 {
-	if (pInterface) delete pInterface;
+	if (proxy) delete proxy;
 	return 0;
+}
+
+DllExport long GetNProps(ProxyComponent* proxy)
+{
+	if (proxy == nullptr) return 0;
+	return proxy->Interface().GetNProps();
+}
+
+DllExport long FindProp(ProxyComponent* proxy, const WCHAR_T* wsPropName)
+{
+	if (proxy == nullptr) return -1;
+	return proxy->Interface().FindProp(wsPropName);
+}
+
+DllExport void GetPropName(ProxyComponent* proxy, long lPropNum, long lPropAlias, LPEXTFUNCRESPOND respond)
+{
+	if (proxy == nullptr) return;
+	auto name = proxy->Interface().GetPropName(lPropNum, lPropAlias);
+	if (name) respond(name);
+	delete name;
+}
+
+DllExport bool IsPropReadable(ProxyComponent* proxy, long lPropNum)
+{
+	if (proxy == nullptr) return false;
+	return proxy->Interface().IsPropReadable(lPropNum);
+}
+
+DllExport bool IsPropWritable(ProxyComponent* proxy, long lPropNum)
+{
+	if (proxy == nullptr) return false;
+	auto res = proxy->Interface().IsPropWritable(lPropNum);
+	return res;
+}
+
+DllExport long GetNMethods(ProxyComponent* proxy)
+{
+	if (proxy == nullptr) return 0;
+	return proxy->Interface().GetNMethods();
+}
+
+DllExport long FindMethod(ProxyComponent* proxy, const WCHAR_T* wsMethodName)
+{
+	if (proxy == nullptr) return -1;
+	return proxy->Interface().FindMethod(wsMethodName);
+}
+
+DllExport void GetMethodName(ProxyComponent* proxy, long lMethodNum, long lMethodAlias, LPEXTFUNCRESPOND respond)
+{
+	if (proxy == nullptr) return;
+	auto name = proxy->Interface().GetMethodName(lMethodNum, lMethodAlias);
+	if (name) respond(name);
+	delete name;
+}
+
+DllExport long GetNParams(ProxyComponent* proxy, long lMethodNum)
+{
+	if (proxy == nullptr) return 0;
+	return proxy->Interface().GetNParams(lMethodNum);
+}
+
+DllExport bool HasRetVal(ProxyComponent* proxy, long lMethodNum)
+{
+	if (proxy == nullptr) return false;
+	return proxy->Interface().HasRetVal(lMethodNum);
 }
